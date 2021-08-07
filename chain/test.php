@@ -1,0 +1,5 @@
+<?php
+
+sleep (5);
+
+file_put_contents ('test.txt', 123);

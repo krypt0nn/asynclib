@@ -1,0 +1,22 @@
+{
+    "name": "krypt0nn/asynclib",
+    "description": "library that gives you ability to create asynchronous tasks in PHP 7.4+",
+    "keywords": ["asynchronous"],
+    "version": "0.1.0",
+    "homepage": "https://github.com/KRypt0nn/asynclib",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Nikita Podvirnyy",
+            "email": "suimin.tu.mu.ga.mi@gmail.com",
+            "homepage": "https://github.com/KRypt0nn",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "files": ["Asynclib.php"]
+    }
+}
