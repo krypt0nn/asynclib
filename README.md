@@ -1,10 +1,6 @@
 <h1 align="center">🚀 Asynclib</h1>
 
-<br>
-
 **Asynclib** is a library that gives you ability to create asynchronous tasks in PHP 7.4+
-
-<br>
 
 ## Installation
 
@@ -12,15 +8,9 @@
 composer require krypt0nn/asynclib
 ```
 
-<br>
-
 ## Basic usage
 
-<br>
-
 > For practical example you can look at [test](/test) directory
-
-<br>
 
 Every task should be written in its file. This file should return the `TaskRunner` object. For example:
 
@@ -144,17 +134,15 @@ It also will set the task state as 0 (just initialized)
 
 Other available methods:
 
-Name | Type | Description
-- | - | -
-output | sting | Get task output if it is done
-id | string | Get task id
-pid | int | Get id of the process which executing this task
-state | int | Get task state. 0 - just initialized, 1 - running, 2 - done
-initialized | bool | Check if the task is just initialized
-running | bool | Check if the task is running
-done | bool | Check if the task is done
-
-<br>
+| Name | Type | Description |
+| - | - | - |
+| output | sting | Get task output if it is done |
+| id | string | Get task id |
+| pid | int | Get id of the process which executing this task |
+| state | int | Get task state. 0 - just initialized, 1 - running, 2 - done |
+| initialized | bool | Check if the task is just initialized |
+| running | bool | Check if the task is running |
+| done | bool | Check if the task is done |
 
 ## Tasks pools
 
@@ -202,8 +190,6 @@ Method `add` can add a new task to the pool
 ```php
 $pool->add (Task::create ('path_to_task.php'));
 ```
-
-<br>
 
 ## Known issues and todos
 
