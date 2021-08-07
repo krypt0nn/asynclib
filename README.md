@@ -10,7 +10,7 @@ composer require krypt0nn/asynclib
 
 ## About asynchronous programming
 
-<p align="center"><img src="https://i.ibb.co/d6F6wqB/Untitled-Diagram.png"></p>
+<p align="center"><img src="https://i.ibb.co/PGn9DX0/Untitled-Diagram.png"></p>
 
 \* yellows is a tasks ran asynchronously
 
