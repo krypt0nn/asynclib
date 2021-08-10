@@ -24,11 +24,11 @@ class Server
     {
         if (IPC_AVAILABLE)
         {
-            $this->socket = \socket_create (AF_UNIX, SOCK_STREAM, 0);
+            $this->socket = socket_create (AF_UNIX, SOCK_STREAM, 0);
 
-            \socket_bind ($this->socket, $file);
-            \socket_listen ($this->socket);
-            \socket_set_nonblock ($this->socket);
+            socket_bind ($this->socket, $file);
+            socket_listen ($this->socket);
+            socket_set_nonblock ($this->socket);
         }
 
         else $this->socket = $file;
@@ -53,20 +53,20 @@ class Server
 
                 if ($data !== false)
                 {
-                    while (($buffer = \socket_read ($this->client, 1024)) != '')
+                    while (($buffer = socket_read ($this->client, 1024)) != '')
                         $data .= $buffer;
 
                     return strlen ($data) > 0 ? $data : null;
                 }
             }
 
-            if ($client = \socket_accept ($this->socket))
+            elseif ($client = socket_accept ($this->socket))
             {
                 $this->client = $client;
 
                 $data = '';
 
-                while (($buffer = \socket_read ($client, 1024)) != '')
+                while (($buffer = socket_read ($this->client, 1024)) != '')
                     $data .= $buffer;
 
                     return strlen ($data) > 0 ? $data : null;
@@ -101,10 +101,10 @@ class Server
     {
         if (IPC_AVAILABLE)
         {
-            \socket_close ($this->socket);
+            socket_close ($this->socket);
 
             if ($this->client !== null)
-                \socket_close ($this->client);
+                socket_close ($this->client);
         }
     }
 
@@ -115,10 +115,10 @@ class Server
     {
         if (IPC_AVAILABLE)
         {
-            \socket_close ($this->socket);
+            socket_close ($this->socket);
 
             if ($this->client !== null)
-                \socket_close ($this->client);
+                socket_close ($this->client);
         }
     }
 }

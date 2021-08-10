@@ -39,15 +39,25 @@ echo '                 and pid: '. $task->pid () . PHP_EOL . PHP_EOL;
  * 
  * You also can use this variant:
  * 
+ * $n = 1;
+ * 
  * while (!$task->done ())
  * {
+ *     $task->perform ('displayInfo', "Hello, World! ($n)");
+ *     ++$n;
+ * 
  *     echo 'Task is not finished yet' . PHP_EOL;
  * 
  *     sleep (1);
  * }
  */
-$task->wait (delay: 1000, callback: function ()
+$n = 1;
+
+$task->wait (delay: 1000, callback: function () use (&$task, &$n)
 {
+    $task->perform ('displayInfo', "Hello, World! ($n)");
+    ++$n;
+
     echo 'Task is not finished yet' . PHP_EOL;
 });
 

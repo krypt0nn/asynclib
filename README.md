@@ -124,6 +124,8 @@ $task->onFinished (function ($output, Task $task)
 });
 ```
 
+Like `Task`, `TaskRunner` also has events with the same syntax. To receive events from `Task` (main process) and execute them - use `TaskRunner->update` method
+
 To forcibly interrupt task execution you can call method stop
 
 ```php

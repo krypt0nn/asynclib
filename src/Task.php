@@ -2,7 +2,10 @@
 
 namespace Asynclib;
 
-use Asynclib\IPC\Server;
+use Asynclib\IPC\{
+    Client,
+    Server
+};
 
 /**
  * Task class
@@ -16,9 +19,10 @@ class Task
     protected string $file;
 
     /**
-     * Task IPC server
+     * Task IPCs
      */
-    protected Server $ipc;
+    protected Client $ipc_client;
+    protected Server $ipc_server;
 
     /**
      * Task events handlers
@@ -36,7 +40,6 @@ class Task
     
     protected string $taskid;
     protected int $taskpid = -1;
-    protected string $tmpfile;
     protected $output;
 
     /**
@@ -56,15 +59,15 @@ class Task
         do
         {
             $taskid = uniqid ();
-            $tmpfile = sys_get_temp_dir () .'/'. $taskid .'.sock';
+            $tmpfile = sys_get_temp_dir () .'/'. $taskid;
         }
 
         while (file_exists ($tmpfile));
 
         $this->taskid  = $taskid;
-        $this->tmpfile = $tmpfile;
 
-        $this->ipc = new Server ($this->tmpfile);
+        $this->ipc_client = new Client ($tmpfile .'_w.sock');
+        $this->ipc_server = new Server ($tmpfile .'_r.sock');
     }
 
     /**
@@ -117,7 +120,7 @@ class Task
 
         while (true)
         {
-            while (($data = $this->ipc->listen ()) === null);
+            while (($data = $this->ipc_server->listen ()) === null);
 
             $data = unserialize ($data);
 
@@ -162,6 +165,39 @@ class Task
     public function onFinished (?callable $callback): self
     {
         $this->finishEvent = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Perform task event
+     * 
+     * @param string $event - event name
+     * @param mixed $data - event data
+     * 
+     * @return self
+     * 
+     * @throws \Exception - throws exception when task is not initialized or already finished
+     */
+    public function perform (string $event, $data): self
+    {
+        switch ($this->state)
+        {
+            case 0:
+                throw new \Exception ('Task is not initialized');
+
+                break;
+
+            case 2:
+                throw new \Exception ('Task is finished');
+
+                break;
+        }
+
+        $this->ipc_client->send (serialize ([
+            'event' => $event,
+            'data'  => $data
+        ]));
 
         return $this;
     }
@@ -218,7 +254,7 @@ class Task
         if ($this->state == 0)
             return null;
         
-        while (($data = $this->ipc->listen ()) !== null)
+        while (($data = $this->ipc_server->listen ()) !== null)
         {
             $data = unserialize ($data);
 
@@ -387,7 +423,8 @@ class Task
      */
     public function __destruct ()
     {
-        $this->ipc->close ();
+        $this->ipc_client->close ();
+        $this->ipc_server->close ();
 
         if ($this->state == 0)
             return;

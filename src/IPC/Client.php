@@ -23,9 +23,9 @@ class Client
     {
         if (IPC_AVAILABLE)
         {
-            $this->socket = \socket_create (AF_UNIX, SOCK_STREAM, 0);
+            $this->socket = socket_create (AF_UNIX, SOCK_STREAM, 0);
 
-            \socket_connect ($this->socket, $file);
+            socket_connect ($this->socket, $file);
         }
 
         else $this->socket = $file;
@@ -41,7 +41,7 @@ class Client
     public function send (string $data)
     {
         if (IPC_AVAILABLE)
-            \socket_write ($this->socket, $data, strlen ($data));
+            socket_write ($this->socket, $data, strlen ($data));
 
         else file_put_contents ($this->socket .'.'. $this->inner++, $data);
 
@@ -54,7 +54,7 @@ class Client
     public function close (): void
     {
         if (IPC_AVAILABLE)
-            \socket_close ($this->socket);
+            socket_close ($this->socket);
     }
 
     /**
@@ -63,6 +63,6 @@ class Client
     public function __destruct ()
     {
         if (IPC_AVAILABLE)
-            \socket_close ($this->socket);
+            socket_close ($this->socket);
     }
 }
