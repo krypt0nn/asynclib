@@ -8,9 +8,21 @@
 composer require krypt0nn/asynclib
 ```
 
+## About asynchronous programming
+
+<p align="center"><img src="https://i.ibb.co/PGn9DX0/Untitled-Diagram.png"></p>
+
+\* yellows is a tasks ran asynchronously
+
+This diagram shows the difference between synchronous and asynchronous programs. First ones executing every task in the main process so if you have a task like get a huge file from a website - the program will be paused (lagged) until this task will be not finished. It also means that other tasks in your program will be executed only after this one
+
+Asynchronous programs execute tasks parallel. In Asynclib, every new task runs in another process which means that they will not affect the main program and stop its execution. We can run long high weight tasks async and monitor their states from the main process which will give us a valuable performance boost
+
 ## Basic usage
 
 > For practical example you can look at [test](/test) directory
+> 
+> Also, keep in mind that this library was developed only for desktop usage. I didn't test it on websites and don't know will it works there or not
 
 Every task should be written in its file. This file should return the `TaskRunner` object. For example:
 
