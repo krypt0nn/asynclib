@@ -56,13 +56,8 @@ class Task
         if (!is_readable ($file))
             throw new \Exception ('File is not readable');
 
-        do
-        {
-            $taskid = uniqid ();
-            $tmpfile = sys_get_temp_dir () .'/'. $taskid;
-        }
-
-        while (file_exists ($tmpfile));
+        $taskid = uniqid ();
+        $tmpfile = sys_get_temp_dir () .'/'. $taskid;
 
         $this->taskid  = $taskid;
 
